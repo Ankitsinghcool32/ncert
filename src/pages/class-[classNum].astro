@@ -1,0 +1,195 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+  return [
+    { params: { classNum: '6' } },
+    { params: { classNum: '7' } },
+    { params: { classNum: '8' } },
+    { params: { classNum: '9' } },
+    { params: { classNum: '10' } },
+    { params: { classNum: '11' } },
+    { params: { classNum: '12' } }
+  ];
+}
+
+const { classNum } = Astro.params;
+
+// Mock data for subjects and chapters - this would come from your CMS
+const classData = {
+  '6': {
+    subjects: {
+      'science': {
+        name: 'Science',
+        icon: '🔬',
+        chapters: {
+          '1': { title: 'Food - Where Does it Come From?', available: true },
+          '2': { title: 'Components of Food', available: false },
+          '3': { title: 'Fibre to Fabric', available: false },
+          '4': { title: 'Sorting Materials into Groups', available: false },
+          '5': { title: 'Separation of Substances', available: false }
+        }
+      },
+      'mathematics': {
+        name: 'Mathematics',
+        icon: '🧮',
+        chapters: {
+          '1': { title: 'Knowing Our Numbers', available: false },
+          '2': { title: 'Whole Numbers', available: false },
+          '3': { title: 'Playing with Numbers', available: false },
+          '4': { title: 'Basic Geometrical Ideas', available: false }
+        }
+      },
+      'social-science': {
+        name: 'Social Science',
+        icon: '🌍',
+        chapters: {
+          '1': { title: 'What, Where, How and When?', available: false },
+          '2': { title: 'From Hunting-Gathering to Growing Food', available: false },
+          '3': { title: 'In the Earliest Cities', available: false }
+        }
+      }
+    }
+  },
+  // Add other classes with similar structure
+  '7': { subjects: {} },
+  '8': { subjects: {} },
+  '9': { subjects: {} },
+  '10': { subjects: {} },
+  '11': { subjects: {} },
+  '12': { subjects: {} }
+};
+
+const currentClassData = classData[classNum] || { subjects: {} };
+const hasContent = Object.keys(currentClassData.subjects).length > 0;
+---
+
+<BaseLayout title={`Class ${classNum} - NCERT Study Materials`}>
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Breadcrumb -->
+    <nav class="flex items-center space-x-2 text-sm text-gray-600 mb-6">
+      <a href="/" class="hover:text-primary-600">Home</a>
+      <span>/</span>
+      <span class="text-primary-600 font-medium">Class {classNum}</span>
+    </nav>
+
+    <!-- Header -->
+    <div class="text-center mb-12">
+      <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+        📚 Class {classNum} Study Materials
+      </h1>
+      <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+        Comprehensive NCERT study materials including chapter summaries, important topics, and practice questions
+      </p>
+    </div>
+
+    {hasContent ? (
+      <!-- Subjects Grid -->
+      <div class="space-y-8">
+        {Object.entries(currentClassData.subjects).map(([subjectKey, subject]) => (
+          <div class="bg-white rounded-lg shadow-md border border-gray-200 p-6">
+            <div class="flex items-center mb-6">
+              <span class="text-3xl mr-4">{subject.icon}</span>
+              <h2 class="text-2xl font-bold text-gray-900">{subject.name}</h2>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {Object.entries(subject.chapters).map(([chapterNum, chapter]) => (
+                <div class={`p-4 rounded-lg border-2 transition-all duration-200 ${
+                  chapter.available 
+                    ? 'border-green-200 bg-green-50 hover:border-green-300 hover:shadow-md' 
+                    : 'border-gray-200 bg-gray-50'
+                }`}>
+                  <div class="flex items-start justify-between mb-3">
+                    <h3 class="font-semibold text-gray-900 text-sm">
+                      Chapter {chapterNum}
+                    </h3>
+                    {chapter.available ? (
+                      <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">
+                        Available
+                      </span>
+                    ) : (
+                      <span class="bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded-full">
+                        Coming Soon
+                      </span>
+                    )}
+                  </div>
+                  
+                  <p class="text-sm text-gray-700 mb-4">{chapter.title}</p>
+                  
+                  {chapter.available ? (
+                    <div class="flex flex-col gap-2">
+                      <a href={`/class-${classNum}/${subjectKey}/chapter-${chapterNum}/summary`}
+                         class="text-xs bg-primary-600 text-white px-3 py-2 rounded-md hover:bg-primary-700 transition-colors text-center">
+                        📋 Summary
+                      </a>
+                      <a href={`/class-${classNum}/${subjectKey}/chapter-${chapterNum}/topics`}
+                         class="text-xs bg-gray-600 text-white px-3 py-2 rounded-md hover:bg-gray-700 transition-colors text-center">
+                        📝 Topics
+                      </a>
+                      <a href={`/class-${classNum}/${subjectKey}/chapter-${chapterNum}/qna`}
+                         class="text-xs bg-green-600 text-white px-3 py-2 rounded-md hover:bg-green-700 transition-colors text-center">
+                        ❓ Q&A
+                      </a>
+                    </div>
+                  ) : (
+                    <div class="text-xs text-gray-500 text-center py-2">
+                      Content coming soon...
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    ) : (
+      <!-- Coming Soon Message -->
+      <div class="text-center py-16">
+        <div class="text-6xl mb-6">🚧</div>
+        <h2 class="text-2xl font-bold text-gray-900 mb-4">
+          Class {classNum} Materials Coming Soon!
+        </h2>
+        <p class="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
+          We're working hard to create comprehensive study materials for Class {classNum}. 
+          In the meantime, check out our available content for other classes.
+        </p>
+        
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a href="/class-6" 
+             class="px-6 py-3 bg-primary-600 text-white rounded-md hover:bg-primary-700 transition-colors font-medium">
+            Browse Class 6 Materials
+          </a>
+          <a href="/" 
+             class="px-6 py-3 bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200 transition-colors font-medium">
+            Back to Home
+          </a>
+        </div>
+      </div>
+    )}
+
+    <!-- Study Tips Section -->
+    <div class="mt-16 bg-gradient-to-r from-primary-50 to-primary-100 rounded-lg p-6 sm:p-8">
+      <h2 class="text-xl sm:text-2xl font-bold text-primary-900 mb-4 text-center">
+        📖 Study Tips for Class {classNum}
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="text-center">
+          <div class="text-2xl mb-2">⏰</div>
+          <h3 class="font-semibold text-primary-800 mb-2">Regular Study</h3>
+          <p class="text-sm text-primary-700">Set aside dedicated time daily for consistent learning</p>
+        </div>
+        <div class="text-center">
+          <div class="text-2xl mb-2">📝</div>
+          <h3 class="font-semibold text-primary-800 mb-2">Take Notes</h3>
+          <p class="text-sm text-primary-700">Write down key points while studying each chapter</p>
+        </div>
+        <div class="text-center">
+          <div class="text-2xl mb-2">🔄</div>
+          <h3 class="font-semibold text-primary-800 mb-2">Practice Regularly</h3>
+          <p class="text-sm text-primary-700">Solve questions and review topics frequently</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</BaseLayout>

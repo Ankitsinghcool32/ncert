@@ -1,0 +1,200 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import ChapterNav from '../../../../components/ChapterNav.astro';
+import Sidebar from '../../../../components/Sidebar.astro';
+import MobileNav from '../../../../components/MobileNav.astro';
+import { readFile } from 'node:fs/promises';
+import { resolve } from 'node:path';
+
+export async function getStaticPaths() {
+  return [
+    {
+      params: { 
+        class: '6', 
+        subject: 'science', 
+        chapter: '1', 
+        pageType: 'summary' 
+      }
+    },
+    {
+      params: { 
+        class: '6', 
+        subject: 'science', 
+        chapter: '1', 
+        pageType: 'topics' 
+      }
+    },
+    {
+      params: { 
+        class: '6', 
+        subject: 'science', 
+        chapter: '1', 
+        pageType: 'qna' 
+      }
+    }
+  ];
+}
+
+const { class: classNum, subject, chapter, pageType } = Astro.params;
+
+// Read markdown content
+let content = '';
+let title = `Class ${classNum} ${subject.charAt(0).toUpperCase() + subject.slice(1)} Chapter ${chapter}`;
+
+try {
+  const filePath = resolve(`content/class-${classNum}/${subject}/chapter-${chapter}/${pageType}.md`);
+  const fileContent = await readFile(filePath, 'utf-8');
+  
+  // Simple markdown parsing - extract frontmatter and content
+  const frontmatterMatch = fileContent.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
+  if (frontmatterMatch) {
+    const frontmatterStr = frontmatterMatch[1];
+    content = frontmatterMatch[2];
+    
+    // Extract title from frontmatter
+    const titleMatch = frontmatterStr.match(/title:\s*"([^"]+)"/);
+    if (titleMatch) {
+      title = titleMatch[1];
+    }
+  } else {
+    content = fileContent;
+  }
+} catch (error) {
+  console.error(`Could not load content:`, error);
+  content = '<p>Content not found</p>';
+}
+
+// Generate navigation URLs
+const baseUrl = `/class-${classNum}/${subject}/chapter-${chapter}`;
+const summaryUrl = `${baseUrl}/summary`;
+const topicsUrl = `${baseUrl}/topics`;
+const qnaUrl = `${baseUrl}/qna`;
+
+// Simple markdown to HTML conversion
+function simpleMarkdownToHtml(md: string): string {
+  return md
+    .replace(/^# (.+)$/gm, '<h1>$1</h1>')
+    .replace(/^## (.+)$/gm, '<h2>$1</h2>')
+    .replace(/^### (.+)$/gm, '<h3>$1</h3>')
+    .replace(/^\*\*(.+?)\*\*:/gm, '<strong>$1:</strong>')
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/^- (.+)$/gm, '<li>$1</li>')
+    .replace(/(<li>.*<\/li>)/gs, '<ul>$1</ul>')
+    .replace(/^\*\*Q(\d+):\*\* (.+)$/gm, '<div class="question"><strong>Q$1:</strong> $2</div>')
+    .replace(/^\*\*A(\d+):\*\* (.+)$/gm, '<div class="answer"><strong>A$1:</strong> $2</div>')
+    .replace(/\n\n/g, '</p><p>')
+    .replace(/^(?!<[h1-6]|<ul|<li|<div)(.+)$/gm, '<p>$1</p>')
+    .replace(/<p><\/p>/g, '');
+}
+
+const htmlContent = simpleMarkdownToHtml(content);
+---
+
+<BaseLayout title={title}>
+  <!-- Mobile Navigation -->
+  <MobileNav 
+    currentClass={classNum}
+    currentSubject={subject}
+    currentChapter={chapter}
+  />
+  
+  <div class="max-w-7xl mx-auto">
+    <div class="lg:grid lg:grid-cols-4 lg:gap-8">
+      <!-- Sidebar - Hidden on mobile, shown on desktop -->
+      <div class="hidden lg:block lg:col-span-1">
+        <Sidebar 
+          currentClass={classNum}
+          currentSubject={subject}
+          currentChapter={chapter}
+        />
+      </div>
+
+      <!-- Main Content -->
+      <div class="lg:col-span-3">
+        <!-- Breadcrumb -->
+        <nav class="flex items-center space-x-1 sm:space-x-2 text-xs sm:text-sm text-gray-600 mb-6 px-4 sm:px-0 overflow-x-auto">
+          <a href="/" class="hover:text-primary-600">Home</a>
+          <span>/</span>
+          <span class="whitespace-nowrap">Class {classNum}</span>
+          <span>/</span>
+          <span class="capitalize whitespace-nowrap">{subject}</span>
+          <span>/</span>
+          <span class="whitespace-nowrap">Chapter {chapter}</span>
+          <span>/</span>
+          <span class="capitalize text-primary-600 font-medium whitespace-nowrap">{pageType}</span>
+        </nav>
+
+        <!-- Chapter Navigation -->
+        <ChapterNav 
+          summaryUrl={summaryUrl}
+          topicsUrl={topicsUrl}
+          qnaUrl={qnaUrl}
+          currentPage={pageType}
+        />
+
+        <!-- Content -->
+        <article class="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6 lg:p-8 mx-4 sm:mx-0">
+          <div class="prose prose-lg max-w-none">
+            <Fragment set:html={htmlContent} />
+          </div>
+        </article>
+
+        <!-- Navigation to other chapters (placeholder for future expansion) -->
+        <div class="mt-8 flex flex-col sm:flex-row justify-between items-center gap-4 px-4 sm:px-0">
+          <button class="w-full sm:w-auto px-4 py-3 sm:py-2 bg-gray-100 text-gray-400 rounded-md cursor-not-allowed text-sm sm:text-base">
+            ← Previous Chapter
+          </button>
+          <div class="text-xs sm:text-sm text-gray-500 text-center">
+            Chapter {chapter} of {subject.charAt(0).toUpperCase() + subject.slice(1)}
+          </div>
+          <button class="w-full sm:w-auto px-4 py-3 sm:py-2 bg-gray-100 text-gray-400 rounded-md cursor-not-allowed text-sm sm:text-base">
+            Next Chapter →
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .prose {
+    @apply text-gray-800;
+  }
+  
+  .prose :global(h1) {
+    @apply text-2xl sm:text-3xl font-bold text-gray-900 mb-4 sm:mb-6;
+  }
+  
+  .prose :global(h2) {
+    @apply text-xl sm:text-2xl font-semibold text-gray-800 mt-6 sm:mt-8 mb-3 sm:mb-4;
+  }
+  
+  .prose :global(h3) {
+    @apply text-lg sm:text-xl font-semibold text-gray-800 mt-4 sm:mt-6 mb-2 sm:mb-3;
+  }
+  
+  .prose :global(p) {
+    @apply mb-3 sm:mb-4 leading-relaxed text-sm sm:text-base;
+  }
+  
+  .prose :global(ul) {
+    @apply mb-3 sm:mb-4 ml-4 sm:ml-6 list-disc;
+  }
+  
+  .prose :global(li) {
+    @apply mb-1 sm:mb-2 text-sm sm:text-base;
+  }
+  
+  .prose :global(strong) {
+    @apply font-semibold text-gray-900;
+  }
+  
+  .prose :global(.question) {
+    @apply mb-2 p-2 sm:p-3 bg-blue-50 border-l-4 border-blue-400 rounded text-sm sm:text-base;
+  }
+  
+  .prose :global(.answer) {
+    @apply mb-3 sm:mb-4 p-2 sm:p-3 bg-green-50 border-l-4 border-green-400 rounded text-sm sm:text-base;
+  }
+</style>
+</BaseLayout>

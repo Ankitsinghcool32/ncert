@@ -1,0 +1,162 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="NCERT Study Platform - Home">
+  <div class="max-w-6xl mx-auto">
+    <!-- Hero Section -->
+    <div class="text-center mb-12">
+      <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+        📚 NCERT Study Platform
+      </h1>
+      <p class="text-lg sm:text-xl text-gray-600 mb-8 max-w-3xl mx-auto px-4">
+        Comprehensive study materials, summaries, topics, and Q&A for NCERT curriculum from Class 6 to Class 12
+      </p>
+    </div>
+
+    <!-- Quick Access Cards -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-12 px-4 sm:px-0">
+      <div class="group bg-white p-4 sm:p-6 rounded-lg shadow-md border border-gray-200 hover:shadow-lg hover:border-primary-300 transition-all duration-200">
+        <div class="text-2xl sm:text-3xl mb-3 sm:mb-4">📋</div>
+        <h3 class="text-lg sm:text-xl font-semibold text-gray-900 mb-2 group-hover:text-primary-600">Chapter Summaries</h3>
+        <p class="text-sm sm:text-base text-gray-600">Concise overview of key concepts and important points from each chapter.</p>
+      </div>
+
+      <div class="group bg-white p-4 sm:p-6 rounded-lg shadow-md border border-gray-200 hover:shadow-lg hover:border-primary-300 transition-all duration-200">
+        <div class="text-2xl sm:text-3xl mb-3 sm:mb-4">📝</div>
+        <h3 class="text-lg sm:text-xl font-semibold text-gray-900 mb-2 group-hover:text-primary-600">Important Topics</h3>
+        <p class="text-sm sm:text-base text-gray-600">Comprehensive breakdown of all topics covered in each chapter.</p>
+      </div>
+
+      <div class="group bg-white p-4 sm:p-6 rounded-lg shadow-md border border-gray-200 hover:shadow-lg hover:border-primary-300 transition-all duration-200 sm:col-span-2 lg:col-span-1">
+        <div class="text-2xl sm:text-3xl mb-3 sm:mb-4">❓</div>
+        <h3 class="text-lg sm:text-xl font-semibold text-gray-900 mb-2 group-hover:text-primary-600">Questions & Answers</h3>
+        <p class="text-sm sm:text-base text-gray-600">Practice questions with detailed answers for better understanding.</p>
+      </div>
+    </div>
+
+    <!-- NCERT Classes Section -->
+    <div class="bg-white rounded-lg shadow-md border border-gray-200 p-6 sm:p-8 mx-4 sm:mx-0 mb-12">
+      <div class="text-center mb-8">
+        <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-4">📖 NCERT Study Materials</h2>
+        <p class="text-base sm:text-lg text-gray-600">
+          Select your class to access comprehensive study materials for all subjects
+        </p>
+      </div>
+
+      <!-- Class Buttons Grid -->
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+        <!-- Class 6 -->
+        <a href="/class-6" 
+           class="group bg-gradient-to-br from-blue-500 to-blue-600 text-white p-4 sm:p-6 rounded-lg shadow-md hover:shadow-lg hover:from-blue-600 hover:to-blue-700 transition-all duration-200 transform hover:scale-105 active:scale-95">
+          <div class="text-center">
+            <div class="text-2xl sm:text-3xl font-bold mb-2">6</div>
+            <div class="text-sm sm:text-base font-medium">Class VI</div>
+          </div>
+        </a>
+
+        <!-- Class 7 -->
+        <a href="/class-7" 
+           class="group bg-gradient-to-br from-green-500 to-green-600 text-white p-4 sm:p-6 rounded-lg shadow-md hover:shadow-lg hover:from-green-600 hover:to-green-700 transition-all duration-200 transform hover:scale-105 active:scale-95">
+          <div class="text-center">
+            <div class="text-2xl sm:text-3xl font-bold mb-2">7</div>
+            <div class="text-sm sm:text-base font-medium">Class VII</div>
+          </div>
+        </a>
+
+        <!-- Class 8 -->
+        <a href="/class-8" 
+           class="group bg-gradient-to-br from-purple-500 to-purple-600 text-white p-4 sm:p-6 rounded-lg shadow-md hover:shadow-lg hover:from-purple-600 hover:to-purple-700 transition-all duration-200 transform hover:scale-105 active:scale-95">
+          <div class="text-center">
+            <div class="text-2xl sm:text-3xl font-bold mb-2">8</div>
+            <div class="text-sm sm:text-base font-medium">Class VIII</div>
+          </div>
+        </a>
+
+        <!-- Class 9 -->
+        <a href="/class-9" 
+           class="group bg-gradient-to-br from-red-500 to-red-600 text-white p-4 sm:p-6 rounded-lg shadow-md hover:shadow-lg hover:from-red-600 hover:to-red-700 transition-all duration-200 transform hover:scale-105 active:scale-95">
+          <div class="text-center">
+            <div class="text-2xl sm:text-3xl font-bold mb-2">9</div>
+            <div class="text-sm sm:text-base font-medium">Class IX</div>
+          </div>
+        </a>
+
+        <!-- Class 10 -->
+        <a href="/class-10" 
+           class="group bg-gradient-to-br from-yellow-500 to-yellow-600 text-white p-4 sm:p-6 rounded-lg shadow-md hover:shadow-lg hover:from-yellow-600 hover:to-yellow-700 transition-all duration-200 transform hover:scale-105 active:scale-95">
+          <div class="text-center">
+            <div class="text-2xl sm:text-3xl font-bold mb-2">10</div>
+            <div class="text-sm sm:text-base font-medium">Class X</div>
+          </div>
+        </a>
+
+        <!-- Class 11 -->
+        <a href="/class-11" 
+           class="group bg-gradient-to-br from-indigo-500 to-indigo-600 text-white p-4 sm:p-6 rounded-lg shadow-md hover:shadow-lg hover:from-indigo-600 hover:to-indigo-700 transition-all duration-200 transform hover:scale-105 active:scale-95">
+          <div class="text-center">
+            <div class="text-2xl sm:text-3xl font-bold mb-2">11</div>
+            <div class="text-sm sm:text-base font-medium">Class XI</div>
+          </div>
+        </a>
+
+        <!-- Class 12 -->
+        <a href="/class-12" 
+           class="group bg-gradient-to-br from-pink-500 to-pink-600 text-white p-4 sm:p-6 rounded-lg shadow-md hover:shadow-lg hover:from-pink-600 hover:to-pink-700 transition-all duration-200 transform hover:scale-105 active:scale-95">
+          <div class="text-center">
+            <div class="text-2xl sm:text-3xl font-bold mb-2">12</div>
+            <div class="text-sm sm:text-base font-medium">Class XII</div>
+          </div>
+        </a>
+
+        <!-- Coming Soon placeholder -->
+        <div class="bg-gray-100 p-4 sm:p-6 rounded-lg shadow-md border-2 border-dashed border-gray-300">
+          <div class="text-center">
+            <div class="text-2xl sm:text-3xl text-gray-400 mb-2">+</div>
+            <div class="text-sm sm:text-base text-gray-500 font-medium">More Classes</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Features Section -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 px-4 sm:px-0 mb-12">
+      <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200 text-center">
+        <div class="text-3xl mb-4">🎯</div>
+        <h3 class="text-lg font-semibold text-gray-900 mb-2">Curriculum Aligned</h3>
+        <p class="text-sm text-gray-600">All content follows official NCERT curriculum and guidelines</p>
+      </div>
+
+      <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200 text-center">
+        <div class="text-3xl mb-4">📱</div>
+        <h3 class="text-lg font-semibold text-gray-900 mb-2">Mobile Friendly</h3>
+        <p class="text-sm text-gray-600">Access study materials anytime, anywhere on any device</p>
+      </div>
+
+      <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200 text-center">
+        <div class="text-3xl mb-4">🆓</div>
+        <h3 class="text-lg font-semibold text-gray-900 mb-2">Completely Free</h3>
+        <p class="text-sm text-gray-600">All study materials are free and will always remain free</p>
+      </div>
+    </div>
+
+    <!-- Current Status -->
+    <div class="bg-gradient-to-r from-primary-50 to-primary-100 rounded-lg p-6 sm:p-8 mx-4 sm:mx-0">
+      <div class="text-center">
+        <h2 class="text-xl sm:text-2xl font-bold text-primary-900 mb-4">🚀 Platform Status</h2>
+        <p class="text-base text-primary-800 mb-6">
+          We're actively building comprehensive study materials for all classes. Currently available content:
+        </p>
+        
+        <div class="bg-white p-4 rounded-lg shadow-sm inline-block">
+          <div class="text-lg font-bold text-green-600 mb-1">Class 6 Science - Chapter 1</div>
+          <div class="text-sm text-gray-600">Food - Where Does it Come From?</div>
+          <a href="/class-6/science/chapter-1/summary" 
+             class="inline-block mt-2 px-4 py-2 bg-primary-600 text-white rounded-md hover:bg-primary-700 transition-colors text-sm font-medium">
+            Start Learning →
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</BaseLayout>

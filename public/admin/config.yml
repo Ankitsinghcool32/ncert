@@ -1,0 +1,46 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "public/uploads"
+public_folder: "/uploads"
+
+collections:
+  - name: "summaries"
+    label: "Chapter Summaries"
+    folder: "content"
+    create: true
+    slug: "class-{{class}}/{{subject}}/chapter-{{chapter}}/summary"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Class", name: "class", widget: "select", options: ["6", "7", "8", "9", "10", "11", "12"] }
+      - { label: "Subject", name: "subject", widget: "select", options: ["science", "mathematics", "social-science", "english", "hindi"] }
+      - { label: "Chapter", name: "chapter", widget: "string" }
+      - { label: "Type", name: "type", widget: "hidden", default: "summary" }
+      - { label: "Content", name: "body", widget: "markdown" }
+
+  - name: "topics"
+    label: "Chapter Topics"
+    folder: "content"
+    create: true
+    slug: "class-{{class}}/{{subject}}/chapter-{{chapter}}/topics"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Class", name: "class", widget: "select", options: ["6", "7", "8", "9", "10", "11", "12"] }
+      - { label: "Subject", name: "subject", widget: "select", options: ["science", "mathematics", "social-science", "english", "hindi"] }
+      - { label: "Chapter", name: "chapter", widget: "string" }
+      - { label: "Type", name: "type", widget: "hidden", default: "topics" }
+      - { label: "Content", name: "body", widget: "markdown" }
+
+  - name: "qna"
+    label: "Questions & Answers"
+    folder: "content"
+    create: true
+    slug: "class-{{class}}/{{subject}}/chapter-{{chapter}}/qna"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Class", name: "class", widget: "select", options: ["6", "7", "8", "9", "10", "11", "12"] }
+      - { label: "Subject", name: "subject", widget: "select", options: ["science", "mathematics", "social-science", "english", "hindi"] }
+      - { label: "Chapter", name: "chapter", widget: "string" }
+      - { label: "Type", name: "type", widget: "hidden", default: "qna" }
+      - { label: "Content", name: "body", widget: "markdown" }

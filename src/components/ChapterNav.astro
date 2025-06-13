@@ -1,0 +1,47 @@
+---
+export interface Props {
+  summaryUrl: string;
+  topicsUrl: string;
+  qnaUrl: string;
+  currentPage?: string;
+}
+
+const { summaryUrl, topicsUrl, qnaUrl, currentPage } = Astro.props;
+---
+
+<nav class="bg-white rounded-lg shadow-sm border border-gray-200 p-4 mb-6">
+  <div class="flex flex-col sm:flex-row gap-3 sm:gap-4">
+    <a 
+      href={summaryUrl} 
+      class={`px-4 py-3 sm:py-2 rounded-md font-medium transition-all duration-200 text-center sm:text-left ${
+        currentPage === 'summary' 
+          ? 'bg-primary-600 text-white shadow-md' 
+          : 'bg-gray-100 text-gray-700 hover:bg-primary-50 hover:text-primary-600'
+      }`}
+    >
+      📋 Summary
+    </a>
+    
+    <a 
+      href={topicsUrl} 
+      class={`px-4 py-3 sm:py-2 rounded-md font-medium transition-all duration-200 text-center sm:text-left ${
+        currentPage === 'topics' 
+          ? 'bg-primary-600 text-white shadow-md' 
+          : 'bg-gray-100 text-gray-700 hover:bg-primary-50 hover:text-primary-600'
+      }`}
+    >
+      📝 Topics
+    </a>
+    
+    <a 
+      href={qnaUrl} 
+      class={`px-4 py-3 sm:py-2 rounded-md font-medium transition-all duration-200 text-center sm:text-left ${
+        currentPage === 'qna' 
+          ? 'bg-primary-600 text-white shadow-md' 
+          : 'bg-gray-100 text-gray-700 hover:bg-primary-50 hover:text-primary-600'
+      }`}
+    >
+      ❓ Q&A
+    </a>
+  </div>
+</nav>

@@ -1,0 +1,107 @@
+---
+export interface Props {
+  currentClass?: string;
+  currentSubject?: string;
+  currentChapter?: string;
+}
+
+const { currentClass, currentSubject, currentChapter } = Astro.props;
+---
+
+<!-- Mobile Navigation Drawer -->
+<div id="mobile-nav-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden lg:hidden">
+  <div id="mobile-nav-drawer" class="fixed left-0 top-0 h-full w-80 bg-white shadow-xl transform -translate-x-full transition-transform duration-300 ease-in-out overflow-y-auto">
+    <div class="p-4 border-b border-gray-200">
+      <div class="flex items-center justify-between">
+        <h3 class="text-lg font-semibold text-gray-900">📚 Study Navigation</h3>
+        <button id="close-mobile-nav" class="p-2 text-gray-500 hover:text-gray-700">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+    
+    <div class="p-4">
+      <!-- Quick Access -->
+      <div class="mb-6">
+        <h4 class="text-sm font-medium text-gray-700 mb-3">Quick Access</h4>
+        <div class="space-y-2">
+          <a href="/" class="block p-2 text-sm text-gray-600 hover:bg-gray-50 rounded-md">🏠 Home</a>
+          <a href="/class-6/science/chapter-1/summary" class="block p-2 text-sm text-gray-600 hover:bg-gray-50 rounded-md">🔬 Class 6 Science Ch1</a>
+          <a href="/about" class="block p-2 text-sm text-gray-600 hover:bg-gray-50 rounded-md">ℹ️ About Us</a>
+          <a href="/contact" class="block p-2 text-sm text-gray-600 hover:bg-gray-50 rounded-md">📞 Contact</a>
+        </div>
+      </div>
+      
+      <!-- Available Content -->
+      <div class="mb-6">
+        <h4 class="text-sm font-medium text-gray-700 mb-3">Available Content</h4>
+        <div class="bg-green-50 p-3 rounded-lg">
+          <div class="text-sm font-medium text-green-800 mb-1">Class 6 Science - Chapter 1</div>
+          <div class="text-xs text-green-600">Food - Where Does it Come From?</div>
+          <div class="mt-2 flex gap-2">
+            <a href="/class-6/science/chapter-1/summary" class="text-xs bg-green-100 text-green-700 px-2 py-1 rounded">Summary</a>
+            <a href="/class-6/science/chapter-1/topics" class="text-xs bg-green-100 text-green-700 px-2 py-1 rounded">Topics</a>
+            <a href="/class-6/science/chapter-1/qna" class="text-xs bg-green-100 text-green-700 px-2 py-1 rounded">Q&A</a>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Coming Soon -->
+      <div>
+        <h4 class="text-sm font-medium text-gray-700 mb-3">Coming Soon</h4>
+        <div class="space-y-2">
+          <div class="p-2 bg-gray-50 rounded-md">
+            <div class="text-xs font-medium text-gray-600">Class 6 Science - Chapter 2</div>
+            <div class="text-xs text-gray-500">Components of Food</div>
+          </div>
+          <div class="p-2 bg-gray-50 rounded-md">
+            <div class="text-xs font-medium text-gray-600">Class 6 Mathematics</div>
+            <div class="text-xs text-gray-500">All Chapters</div>
+          </div>
+          <div class="p-2 bg-gray-50 rounded-md">
+            <div class="text-xs font-medium text-gray-600">Classes 7-12</div>
+            <div class="text-xs text-gray-500">All Subjects</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Mobile Navigation Button -->
+<button id="open-mobile-nav" class="lg:hidden fixed bottom-4 right-4 bg-primary-600 text-white p-3 rounded-full shadow-lg hover:bg-primary-700 transition-colors z-30">
+  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+  </svg>
+</button>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const openBtn = document.getElementById('open-mobile-nav');
+    const closeBtn = document.getElementById('close-mobile-nav');
+    const overlay = document.getElementById('mobile-nav-overlay');
+    const drawer = document.getElementById('mobile-nav-drawer');
+    
+    function openNav() {
+      overlay?.classList.remove('hidden');
+      setTimeout(() => {
+        drawer?.classList.remove('-translate-x-full');
+      }, 10);
+    }
+    
+    function closeNav() {
+      drawer?.classList.add('-translate-x-full');
+      setTimeout(() => {
+        overlay?.classList.add('hidden');
+      }, 300);
+    }
+    
+    openBtn?.addEventListener('click', openNav);
+    closeBtn?.addEventListener('click', closeNav);
+    overlay?.addEventListener('click', (e) => {
+      if (e.target === overlay) closeNav();
+    });
+  });
+</script>
